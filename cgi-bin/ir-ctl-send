@@ -1,0 +1,45 @@
+#!/bin/bash
+: ${LIRC_DEVICE:=/dev/lirc0}
+if [[ $QUERY_STRING =~ (^|&)keymap=([^&]*) ]]; then
+  keymap="/etc/rc_keymaps/${BASH_REMATCH[2]}.toml"
+  if [[ ! -f $keymap ]]; then
+    echo Status: 404 Keymap not found
+    echo
+    echo Keymap not found
+    exit 2
+  fi
+else
+  echo Status: 400 Bad Request
+  echo
+  echo Bad Request: Missing keymap
+  cat >&2
+  exit 1
+fi
+if [[ $QUERY_STRING =~ (^|&)keycode=([^&]*) ]]; then
+  keycode="${BASH_REMATCH[2]}"
+else
+  echo Status: 400 Bad Request
+  echo
+  echo Bad Request: Missing keycode!
+  exit 1
+fi
+echo Status: 200 OK
+echo
+declare -a delays=()
+if [[ $QUERY_STRING =~ (^|&)delays=([^&]*) ]]; then
+  delay_str=${BASH_REMATCH[2]}
+  shopt -s nocasematch
+  delay_str=${delay_str//%2c/,}
+  OIFS=$IFS
+  IFS=,
+  delays=($delay_str)
+  IFS=$OIFS
+fi
+ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode"
+echo $?
+for delay in "${delays[@]}"; do
+  sleep "$delay"
+  ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode"
+  echo $?
+done
+exit 0

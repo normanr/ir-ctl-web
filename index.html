@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Remote</title>
+<script defer src="fa/selection.min.js"></script>
+<style>
+html {
+	height: 100%;
+}
+body {
+	height: 100%;
+	margin: 0;
+	font-size: 44px;
+	display: grid;
+	place-items: center;
+	line-height: 1;
+	background-color: black;
+	color: white;
+}
+device {
+	height: calc(2.1em * 7 + 6px * (7 - 1));
+	width: calc(2.1em * 3 + 6px * (3 - 1));
+	display: grid;
+	grid: repeat(7, 1fr) / repeat(3, 1fr);
+	grid-gap: 6px;
+	border: 2px solid rgb(74 74 74);
+	border-radius: 1.1em;
+}
+#led {
+	color: darkred;
+}
+device div {
+	display: grid;
+}
+device div, device button {
+	border: 2px solid rgb(74 74 74);
+	border-radius: 16em;
+}
+device div > div {
+	margin: -0.2em;
+}
+device span {
+	display: grid;
+	justify-content: center;
+	align-items: center;
+}
+device > button {
+	padding: 0px;
+}
+device button {
+	font-size: unset;
+	line-height: unset;
+	font-weight: 900;
+	background-color: unset;
+	color: unset;
+	touch-action: none;
+}
+device button:focus {
+	outline: none;
+}
+device div.rows-3 {
+	grid-template-rows: repeat(3, 1fr);
+	grid-row: span 3;
+}
+device div.columns-3 {
+	grid-template-columns: repeat(3, 1fr);
+	grid-column: span 3;
+}
+device div.columns-3 button {
+	border: none;
+}
+device button .left-1 {
+	transform: translateX(-0.1em);
+}
+device button .left-1.grow-4-x-4 {
+	transform: scaleX(1.2);
+	clip-path: inset(-0.14em);
+}
+device button .fa-rotate-270.grow-x-4 {
+	transform: scaleX(1.25) rotate(270deg);
+}
+device button[data-keycode=KEY_DISPLAY_OFF] {
+	background: red;
+}
+device button[data-keycode=KEY_ANGLE] .tilt {
+	transform: perspective(45px) scaleY(2.22) translate3d(0, -5.2px, -45px) rotateX(60deg);
+	height: 100%;
+}
+</style>
+</head>
+<body>
+<device data-keymap="yaber_y31">
+	<button data-keycode="KEY_DISPLAY_OFF" data-delays="0.5"><i class="fas fa-power-off"></i></button>
+	<span><i id="led" class="fas fa-circle" data-fa-transform="shrink-9 up-13"></i></span>
+	<button data-keycode="KEY_MUTE"><i class="fas fa-volume-mute"></i></button>
+
+	<button data-keycode="KEY_ANGLE"><span class="fa-layers fa-fw"><span class="tilt">
+		<i class="fas fa-long-arrow-alt-left" data-fa-transform="rotate-45 grow-12 up-8 left-8"></i>
+		<i class="fas fa-long-arrow-alt-up" data-fa-transform="rotate-45 grow-12 up-8 right-8"></i>
+		<i class="fas fa-long-arrow-alt-right" data-fa-transform="rotate-45 down-8 right-8"></i>
+		<i class="fas fa-long-arrow-alt-down" data-fa-transform="rotate-45 down-8 left-8"></i>
+		<i class="fas fa-square-full"></i>
+		<i class="fas fa-square-full" style="color:black" data-fa-transform="shrink-5 down-0.5"></i>
+		</span></span>
+	</button>
+	<button data-keycode="KEY_HOME"><i class="fas fa-home"></i></button>
+	<button data-keycode="KEY_DISPLAYTOGGLE">
+		<span class="fa-layers fa-fw">
+			<i class="fas fa-minus" data-fa-transform="shrink-6 left-5.6"></i>
+			<i class="fas fa-minus" data-fa-transform="shrink-6 rotate-45 up-4 left-4"></i>
+			<i class="fas fa-minus" data-fa-transform="shrink-6 rotate-90 up-5.6"></i>
+			<i class="fas fa-minus" data-fa-transform="shrink-6 rotate-135 up-4 right-4"></i>
+			<i class="fas fa-minus" data-fa-transform="shrink-6 rotate-180 right-5.6"></i>
+			<i class="fas fa-minus" data-fa-transform="shrink-6 rotate-225 down-4 right-4"></i>
+			<i class="fas fa-minus" data-fa-transform="shrink-6 rotate-270 down-5.6"></i>
+			<i class="fas fa-minus" data-fa-transform="shrink-6 rotate-315 down-4 left-4"></i>
+			<i class="fas fa-circle" style="color:black" data-fa-transform="shrink-6"></i>
+			<i class="fas fa-circle" data-fa-transform="shrink-8"></i>
+			<i class="fas fa-circle" style="color:black" data-fa-transform="shrink-10"></i>
+		</span>
+	</button>
+
+	<div class="rows-3 columns-3">
+		<span></span>
+		<button data-keycode="KEY_UP"><i class="fas fa-play fa-rotate-270"></i></button>
+		<span></span>
+		<button data-keycode="KEY_LEFT"><i class="fas fa-play fa-rotate-180"></i></button>
+		<div><button data-keycode="KEY_OK"><span>OK</span></button></div>
+		<button data-keycode="KEY_RIGHT"><i class="fas fa-play"></i></button>
+		<span></span>
+		<button data-keycode="KEY_DOWN"><i class="fas fa-play fa-rotate-90"></i></button>
+		<span></span>
+	</div>
+
+	<button data-keycode="KEY_SELECT"><span class="fa-layers fa-fw">
+		<i class="fas fa-square-full left-1" data-fa-transform="shrink-3" data-fa-mask="fas fa-square-full"></i>
+		<i class="fas fa-long-arrow-alt-left left-1 grow-4-x-4" data-fa-transform="right-5 grow-4"></i>
+	</span></button>
+	<button data-keycode="KEY_MENU"><span class="fa-layers">
+		<i class="fas fa-square-full" data-fa-transform="shrink-3" data-fa-mask="fas fa-square-full"></i>
+		<i class="fas fa-bars" data-fa-transform="shrink-4"></i>
+	</span></button>
+	<button data-keycode="KEY_BACK"><i class="fas fa-level-up-alt fa-rotate-270 grow-x-4"></i></button>
+
+	<div class="columns-3">
+		<button data-keycode="KEY_VOLUMEDOWN"><i class="fas fa-minus"></i></button>
+		<span><i class="fas fa-volume-up"></i></span>
+		<button data-keycode="KEY_VOLUMEUP"><i class="fas fa-plus"></i></button>
+	</div>
+</device>
+<script type="text/javascript">
+	let touchstart = (event) => {
+		event.preventDefault();
+		let button = event.target.closest('button');
+		if (!button) return;
+		console.log(event.type, button.dataset.keycode)
+		let data = {
+			"keymap": button.closest('device').dataset.keymap,
+			"keycode": button.dataset.keycode,
+		};
+		if (button.dataset.hasOwnProperty('delays')) {
+			data.delays = button.dataset.delays
+		}
+		let led = document.getElementById('led');
+		led.style = "color:red";
+		let query = Object.entries(data).map(([k, v]) => escape(k) + '=' + escape(v)).join('&');
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST", "/cgi-bin/ir-ctl-send?" + query);
+		xhr.onload = () => {
+			led.style = "";
+			if (xhr.status >= 200 && xhr.status < 300) {
+				if (xhr.response) {
+					console.log(xhr.response);
+				}
+			} else {
+				console.log(xhr.statusText);
+			}
+		};
+		xhr.onerror = () => console.log(xhr.statusText);
+		xhr.send();
+	};
+	let touchend = (event) => {
+		let button = event.target.closest('button');
+		if (!button) return;
+		event.preventDefault();
+		console.log(event.type, button.dataset.keycode)
+	};
+	let buttondown = (event) => {
+		if (event.button == 0) touchstart(event)
+	}
+	let buttonup = (event) => {
+        if (event.button == 0) touchend(event)
+	}
+	[...document.getElementsByTagName('device')].forEach(element => {
+		element.addEventListener('touchstart', touchstart);
+		element.addEventListener('mousedown', buttondown);
+		element.addEventListener('touchend', touchend);
+		element.addEventListener('mouseup', buttonup);
+	});
+</script>
+</body>
+</html>
