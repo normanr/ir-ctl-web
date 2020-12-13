@@ -23,8 +23,7 @@ else
   echo Bad Request: Missing keycode!
   exit 1
 fi
-echo Status: 200 OK
-echo
+status="200 OK"
 declare -a delays=()
 if [[ $QUERY_STRING =~ (^|&)delays=([^&]*) ]]; then
   delay_str=${BASH_REMATCH[2]}
@@ -35,11 +34,31 @@ if [[ $QUERY_STRING =~ (^|&)delays=([^&]*) ]]; then
   delays=($delay_str)
   IFS=$OIFS
 fi
-ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode"
-echo $?
+log=()
+out="$(ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode" 2>&1)"
+exit_status=$?
+if [[ -n "${out}" ]]; then
+  log+=("$out")
+fi
+if [[ $exit_status -ne 0 ]]; then
+  status="500 Internal Server Error"
+  log+=("exit_status = $exit_status")
+fi
 for delay in "${delays[@]}"; do
   sleep "$delay"
-  ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode"
-  echo $?
+  out="$(ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode" 2>&1)"
+  exit_status=$?
+  if [[ -n "${out}" ]]; then
+    log+=("$out")
+  fi
+  if [[ $exit_status -ne 0 ]]; then
+    status="500 Internal Server Error"
+    log+=("exit_status = $exit_status")
+  fi
+done
+echo "Status: ${status}"
+echo
+for l in "${log[@]}"; do
+  echo "$l"
 done
 exit 0

@@ -169,17 +169,23 @@ device button[data-keycode=KEY_ANGLE] .tilt {
 		let query = Object.entries(data).map(([k, v]) => escape(k) + '=' + escape(v)).join('&');
 		let xhr = new XMLHttpRequest();
 		xhr.open("POST", "/cgi-bin/ir-ctl-send?" + query);
-		xhr.onload = () => {
+		xhr.addEventListener("load", () => {
 			led.style = "";
+			msg = xhr.status + " " + xhr.statusText + ":\n" + xhr.response;
 			if (xhr.status >= 200 && xhr.status < 300) {
 				if (xhr.response) {
-					console.log(xhr.response);
+					console.warn(msg);
+					alert(msg);
 				}
 			} else {
-				console.log(xhr.statusText);
+				console.error(msg);
+				alert(msg);
 			}
-		};
-		xhr.onerror = () => console.log(xhr.statusText);
+		});
+		xhr.addEventListener("error", () => {
+			led.style = "";
+			alert("Error trying to connect to server");
+		});
 		xhr.send();
 	};
 	let touchend = (event) => {
