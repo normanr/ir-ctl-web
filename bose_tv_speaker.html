@@ -97,6 +97,9 @@ device button .left-1.grow-4-x-4 {
 device button[data-keycode=KEY_BASSBOOST] {
 	font-size: 0.65em;
 }
+device .fa-bose {
+	font-size: 0.364em;
+}
 </style>
 </head>
 <body>
@@ -106,20 +109,20 @@ device button[data-keycode=KEY_BASSBOOST] {
 	</span>
 
 	<button data-keycode="KEY_SOUND"><i class="fas fa-power-off"></i></button>
-	<button data-keycode="KEY_TV"><i class="">TV</i></button>
+	<button data-keycode="KEY_TV"><i class="fas fa-desktop"></i></button>
 
 	<div class="rows-2">
 		<button data-keycode="KEY_VOLUMEUP" data-delays="0.1,0.1,0.1,0.1"><i class="fas fa-plus"></i></button>
 		<button data-keycode="KEY_VOLUMEDOWN" data-delays="0.1,0.1,0.1,0.1"><i class="fas fa-minus"></i></button>
 	</div>
 
-	<button data-keycode="KEY_BLUETOOTH"><i class="">BT</i></button>
+	<button data-keycode="KEY_BLUETOOTH"><i class="fas fa-bluetooth-b"></i></button>
 	<button data-keycode="KEY_BASSBOOST">BASS</button>
 
-	<button data-keycode="KEY_MUTE"><i class="fas fa-volume-mute"></i></button>
-	<button data-keycode="KEY_TEXT"><i class="">TXT</i></button>
+	<button data-keycode="KEY_MUTE"><i class="fas fa-volume-slash"></i></button>
+	<button data-keycode="KEY_TEXT"><i class="fas fa-comment-alt"></i></button>
 
-	<span class="cols-2"><img src="assets/bose-logo.svg" width=156 height=19></span>
+	<span class="cols-2"><i class="fas fa-bose"></i></span>
 </device>
 <script type="text/javascript">
 	let touchstart = (event) => {
