@@ -53,7 +53,7 @@ device > button {
 device button {
 	font-size: unset;
 	line-height: unset;
-	font-weight: 900;
+	font-weight: bold;
 	background-color: unset;
 	color: unset;
 	touch-action: none;
@@ -146,9 +146,9 @@ device button[data-keycode=KEY_ANGLE] .tilt {
 	<button data-keycode="KEY_BACK"><i class="fas fa-level-up-alt fa-rotate-270 grow-x-4"></i></button>
 
 	<div class="columns-3">
-		<button data-keycode="KEY_VOLUMEDOWN"><i class="fas fa-minus"></i></button>
+		<button data-keycode="KEY_VOLUMEDOWN" data-delays="0.1,0.1,0.1,0.1"><i class="fas fa-minus"></i></button>
 		<span><i class="fas fa-volume-up"></i></span>
-		<button data-keycode="KEY_VOLUMEUP"><i class="fas fa-plus"></i></button>
+		<button data-keycode="KEY_VOLUMEUP" data-delays="0.1,0.1,0.1,0.1"><i class="fas fa-plus"></i></button>
 	</div>
 </device>
 <script type="text/javascript">
@@ -198,7 +198,7 @@ device button[data-keycode=KEY_ANGLE] .tilt {
 		if (event.button == 0) touchstart(event)
 	}
 	let buttonup = (event) => {
-        if (event.button == 0) touchend(event)
+		if (event.button == 0) touchend(event)
 	}
 	[...document.getElementsByTagName('device')].forEach(element => {
 		element.addEventListener('touchstart', touchstart);
