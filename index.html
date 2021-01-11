@@ -34,9 +34,13 @@ a {
 	border: 2px solid rgb(74 74 74);
 	padding: 0.2em;
 	border-radius: 0.5em;
+	min-width: 5.8em;
 }
 a:not(:focus-visible) {
 	text-decoration: none;
+}
+a i::before {
+	content: "\00A0";
 }
 a img {
 	display: block;
