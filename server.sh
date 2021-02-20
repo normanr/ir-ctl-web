@@ -26,6 +26,10 @@ while (( "$#" )); do
 		shift
 		target="$1"
 		;;
+	-v|--verbose)
+		shift
+		args+=("-d")
+		;;
 	*)
 		args+=("$1")
 		;;
