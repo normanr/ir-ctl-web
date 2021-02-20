@@ -6,41 +6,41 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="site.webmanifest">
 <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
-<title>Bose TV Speaker Remote</title>
+<title>Christmas Lights Remote</title>
 <script defer src="common.js"></script>
 <script defer src="fa/selection.min.js"></script>
 <style>
-html {
+:root {
 	height: 100%;
+	background-color: black;
+	font-size: calc((100vh - 12px) / 16);
 }
 body {
 	height: 100%;
 	margin: 0;
-	font-size: calc((100vh - 40px) / 12.8);
 	display: grid;
 	place-items: center;
 	line-height: 1;
-	background-color: black;
-	color: white;
 }
 device {
-	height: calc(2.1em * 5 + 6px * (5 - 1));
-	width: calc(2.1em * 2 + 6px * (2 - 1));
+	height: calc(0.6em * 2 + 2.1em * 7 + 2px * 3 * 2);
+	width: calc(2.1em * 3 + 4px);
 	display: grid;
-	grid: repeat(5, 1fr) / repeat(2, 1fr);
-	grid-gap: 6px;
+	grid: 0.6em repeat(7, 1fr) 0.6em / repeat(3, 1fr);
 	border: 2px solid rgb(74 74 74);
 	border-radius: 1.1em;
+	background-color: lightgray;
+	padding: 0 0.2em;
 }
 #led {
 	color: darkred;
 }
 device div {
 	display: grid;
+	border-radius: 0.3em;
 }
 device div, device button {
 	border: 2px solid rgb(74 74 74);
-	border-radius: 16em;
 }
 device div > div {
 	margin: -0.2em;
@@ -49,43 +49,33 @@ device span {
 	display: grid;
 	justify-content: center;
 	align-items: center;
+	font-family: Arial, Helvetica, sans-serif;
 }
 device span.led {
 	grid-column: 1 / -1;
 	justify-items: center;
 }
-device > :nth-child(-n+3) {
-	grid-row: 1;
-}
-device > :nth-of-type(1) {
-	grid-column: 1;
-}
-device > :nth-of-type(2) {
-	grid-column: 2;
-}
-device > button {
-	padding: 0px;
-}
 device button {
+	border-radius: 16em;
 	font-size: unset;
 	line-height: unset;
 	font-weight: bold;
-	background-color: unset;
-	color: unset;
+	background-color: black;
+	color: white;
 	touch-action: none;
+	margin: 2px;
+	padding: 0px;
 }
 device button:focus:not(:focus-visible) {
 	outline: none;
 }
-device span.cols-2 {
-	grid-column: span 2;
+device div.rows-5 {
+	grid-template-rows: repeat(5, 1fr);
+	grid-row: span 5;
 }
-device div.rows-2 {
-	grid-template-rows: repeat(2, 1fr);
-	grid-row: span 2;
-}
-device div.rows-2 button {
-	border: none;
+device div.columns-3 {
+	grid-template-columns: repeat(3, 1fr);
+	grid-column-end: span 3;
 }
 device button .left-1 {
 	transform: translateX(-0.1em);
@@ -94,35 +84,68 @@ device button .left-1.grow-4-x-4 {
 	transform: scaleX(1.2);
 	clip-path: inset(-0.14em);
 }
-device button[data-keycode=KEY_BASSBOOST] {
-	font-size: 0.65em;
+device button .fa-rotate-270.grow-x-4 {
+	transform: scaleX(1.25) rotate(270deg);
 }
-device .fa-bose {
-	font-size: 0.364em;
+device button[data-keycode] {
+	font-size: 0.75em;
+}
+device button[data-keycode=KEY_TIMER_OFF] {
+	font-size: 0.45em;
+}
+device button[data-keycode=KEY_6639H] {
+	font-size: 0.55em;
+}
+device button[data-keycode=KEY_ON] {
+	background: green;
+}
+device button[data-keycode=KEY_OFF] {
+	background: red;
+}
+device button[data-keycode=KEY_ON], device button[data-keycode=KEY_OFF] {
+	color: black;
 }
 </style>
 </head>
 <body>
-<device data-keymap="bose_tv_speaker-raw">
+<device data-keymap="christmas_lights">
 	<span class="led">
-		<i id="led" class="fas fa-circle" data-fa-transform="shrink-10 up-14"></i>
+		<i id="led" class="fas fa-circle" data-fa-transform="shrink-9 up-3"></i>
 	</span>
 
-	<button data-keycode="KEY_SOUND"><i class="fas fa-power-off"></i></button>
-	<button data-keycode="KEY_TV"><i class="fas fa-desktop"></i></button>
-
-	<div class="rows-2">
-		<button data-keycode="KEY_VOLUMEUP" data-delays="0.1,0.1,0.1,0.1"><i class="fas fa-plus"></i></button>
-		<button data-keycode="KEY_VOLUMEDOWN" data-delays="0.1,0.1,0.1,0.1"><i class="fas fa-minus"></i></button>
+	<div class="columns-3">
+		<button data-keycode="KEY_ON">ON</button>
+		<button data-keycode="KEY_TIMER_OFF">TIMER OFF</button>
+		<button data-keycode="KEY_OFF">OFF</button>
 	</div>
 
-	<button data-keycode="KEY_BLUETOOTH"><i class="fas fa-bluetooth-b"></i></button>
-	<button data-keycode="KEY_BASSBOOST">BASS</button>
+	<div class="rows-5 columns-3">
+		<button data-keycode="KEY_6H">6H</button>
+		<button data-keycode="KEY_8H">8H</button>
+		<button data-keycode="KEY_6639H">6639H</button>
 
-	<button data-keycode="KEY_MUTE"><i class="fas fa-volume-slash"></i></button>
-	<button data-keycode="KEY_TEXT"><i class="fas fa-comment-alt"></i></button>
+		<button data-keycode="KEY_1" title="Combination">1</button>
+		<button data-keycode="KEY_2" title="Warm white steady-on">2</button>
+		<button data-keycode="KEY_3" title="Multicolor steady-on">3</button>
 
-	<span class="cols-2"><i class="fas fa-bose"></i></span>
+		<button data-keycode="KEY_4" title="Mixture color 1 steady-on">4</button>
+		<button data-keycode="KEY_5" title="Mixture color 2 steady-on">5</button>
+		<button data-keycode="KEY_6" title="Slow-Glo">6</button>
+
+		<button data-keycode="KEY_7" title="Breathing">7</button>
+		<button data-keycode="KEY_8" title="Warm white Slo-Glo">8</button>
+		<button data-keycode="KEY_9" title="Multicolor Slo-Glo">9</button>
+
+		<button data-keycode="KEY_10" title="Flash">10</button>
+		<span></span>
+		<button data-keycode="KEY_11" title="In Wave">11</button>
+	</div>
+
+	<div class="columns-3">
+		<button data-keycode="KEY_VOLUMEDOWN"><i class="fas fa-minus"></i></button>
+		<span>DIM</span>
+		<button data-keycode="KEY_VOLUMEUP"><i class="fas fa-plus"></i></button>
+	</div>
 </device>
 <script type="text/javascript">
 	let touchstart = (event) => {

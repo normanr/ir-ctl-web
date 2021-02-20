@@ -16,7 +16,7 @@ html {
 body {
 	height: 100%;
 	margin: 0;
-	font-size: 44px;
+	font-size: calc((100vh - 40px) / 15);
 	display: grid;
 	place-items: center;
 	line-height: 1;
@@ -61,7 +61,7 @@ device button {
 	color: unset;
 	touch-action: none;
 }
-device button:focus {
+device button:focus:not(:focus-visible) {
 	outline: none;
 }
 device div.rows-3 {
