@@ -6,31 +6,24 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="site.webmanifest">
 <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="stylesheet" href="common.css" />
 <title>Remotes</title>
 <script defer src="common.js"></script>
 <script defer src="fa/selection.min.js"></script>
 <style>
-html {
-	height: 100%;
-}
 body {
-	height: 100%;
-	margin: 0;
-	display: grid;
 	grid-template-columns: 1fr auto 1fr;
-	background-color: black;
-	color: white;
 	text-align: center;
 	letter-spacing: 1px;
   font: bold 54px sans-serif;
 }
 body > div {
+	height: 100%;
 	grid-column: 2;
 	display: grid;
 	align-content: space-evenly;
 }
 a {
-	color: white;
 	border: 2px solid rgb(74 74 74);
 	padding: 0.2em;
 	border-radius: 0.5em;

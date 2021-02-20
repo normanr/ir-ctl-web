@@ -1,4 +1,4 @@
-let cacheName = 'v1';
+let cacheName = 'v2';
 
 self.addEventListener('install', (event) => {
   console.log('[Service Worker ' + cacheName + '] installing');
@@ -10,6 +10,7 @@ self.addEventListener('install', (event) => {
         './bose_tv_speaker.html',
         './christmas_lights.html',
         './yaber_y31.html',
+        './common.css',
         './common.js',
         './site.webmanifest',
         './assets/icon-192.png',

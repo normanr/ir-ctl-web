@@ -6,49 +6,23 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="site.webmanifest">
 <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="stylesheet" href="common.css" />
 <title>Christmas Lights Remote</title>
 <script defer src="common.js"></script>
 <script defer src="fa/selection.min.js"></script>
 <style>
-:root {
-	height: 100%;
-	background-color: black;
-	font-size: calc((100vh - 12px) / 16);
-}
-body {
-	height: 100%;
-	margin: 0;
-	display: grid;
-	place-items: center;
-	line-height: 1;
-}
 device {
+	font-size: calc((100vh - 12px) / 16);
 	height: calc(0.6em * 2 + 2.1em * 7 + 2px * 3 * 2);
 	width: calc(2.1em * 3 + 4px);
-	display: grid;
 	grid: 0.6em repeat(7, 1fr) 0.6em / repeat(3, 1fr);
-	border: 2px solid rgb(74 74 74);
-	border-radius: 1.1em;
 	background-color: lightgray;
 	padding: 0 0.2em;
 }
-#led {
-	color: darkred;
-}
 device div {
-	display: grid;
 	border-radius: 0.3em;
 }
-device div, device button {
-	border: 2px solid rgb(74 74 74);
-}
-device div > div {
-	margin: -0.2em;
-}
 device span {
-	display: grid;
-	justify-content: center;
-	align-items: center;
 	font-family: Arial, Helvetica, sans-serif;
 }
 device span.led {
@@ -57,17 +31,9 @@ device span.led {
 }
 device button {
 	border-radius: 16em;
-	font-size: unset;
-	line-height: unset;
-	font-weight: bold;
 	background-color: black;
-	color: white;
-	touch-action: none;
 	margin: 2px;
 	padding: 0px;
-}
-device button:focus:not(:focus-visible) {
-	outline: none;
 }
 device div.rows-5 {
 	grid-template-rows: repeat(5, 1fr);
@@ -76,13 +42,6 @@ device div.rows-5 {
 device div.columns-3 {
 	grid-template-columns: repeat(3, 1fr);
 	grid-column-end: span 3;
-}
-device button .left-1 {
-	transform: translateX(-0.1em);
-}
-device button .left-1.grow-4-x-4 {
-	transform: scaleX(1.2);
-	clip-path: inset(-0.14em);
 }
 device button .fa-rotate-270.grow-x-4 {
 	transform: scaleX(1.25) rotate(270deg);
@@ -102,7 +61,7 @@ device button[data-keycode=KEY_ON] {
 device button[data-keycode=KEY_OFF] {
 	background: red;
 }
-device button[data-keycode=KEY_ON], device button[data-keycode=KEY_OFF] {
+span, device button[data-keycode=KEY_ON], device button[data-keycode=KEY_OFF] {
 	color: black;
 }
 </style>
@@ -147,61 +106,5 @@ device button[data-keycode=KEY_ON], device button[data-keycode=KEY_OFF] {
 		<button data-keycode="KEY_VOLUMEUP"><i class="fas fa-plus"></i></button>
 	</div>
 </device>
-<script type="text/javascript">
-	let touchstart = (event) => {
-		event.preventDefault();
-		let button = event.target.closest('button');
-		if (!button) return;
-		console.log(event.type, button.dataset.keycode)
-		let data = {
-			"keymap": button.closest('device').dataset.keymap,
-			"keycode": button.dataset.keycode,
-		};
-		if (button.dataset.hasOwnProperty('delays')) {
-			data.delays = button.dataset.delays
-		}
-		let led = document.getElementById('led');
-		led.style = "color:red";
-		let query = Object.entries(data).map(([k, v]) => escape(k) + '=' + escape(v)).join('&');
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "/cgi-bin/ir-ctl-send?" + query);
-		xhr.addEventListener("load", () => {
-			led.style = "";
-			msg = xhr.status + " " + xhr.statusText + ":\n" + xhr.response;
-			if (xhr.status >= 200 && xhr.status < 300) {
-				if (xhr.response) {
-					console.warn(msg);
-					alert(msg);
-				}
-			} else {
-				console.error(msg);
-				alert(msg);
-			}
-		});
-		xhr.addEventListener("error", () => {
-			led.style = "";
-			alert("Error trying to connect to server");
-		});
-		xhr.send();
-	};
-	let touchend = (event) => {
-		let button = event.target.closest('button');
-		if (!button) return;
-		event.preventDefault();
-		console.log(event.type, button.dataset.keycode)
-	};
-	let buttondown = (event) => {
-		if (event.button == 0) touchstart(event)
-	}
-	let buttonup = (event) => {
-		if (event.button == 0) touchend(event)
-	}
-	[...document.getElementsByTagName('device')].forEach(element => {
-		element.addEventListener('touchstart', touchstart);
-		element.addEventListener('mousedown', buttondown);
-		element.addEventListener('touchend', touchend);
-		element.addEventListener('mouseup', buttonup);
-	});
-</script>
 </body>
 </html>
