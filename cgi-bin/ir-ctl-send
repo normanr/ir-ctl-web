@@ -1,8 +1,12 @@
 #!/bin/bash
-: ${LIRC_DEVICE:=/dev/lirc0}
+: "${LIRC_DEVICE:=/dev/lirc0}"
+IR_CTL="ir-ctl"
 if [[ $QUERY_STRING =~ (^|&)keymap=([^&]*) ]]; then
+  ir_ctl_keymap="/etc/rc_keymaps/${BASH_REMATCH[2]}.sh"
   keymap="/etc/rc_keymaps/${BASH_REMATCH[2]}.toml"
-  if [[ ! -f $keymap ]]; then
+  if [[ -f "$ir_ctl_keymap" ]]; then
+    IR_CTL="$ir_ctl_keymap"
+  elif [[ ! -f "$keymap" ]]; then
     echo Status: 404 Keymap not found
     echo
     echo Keymap not found
@@ -35,7 +39,7 @@ if [[ $QUERY_STRING =~ (^|&)delays=([^&]*) ]]; then
   IFS=$OIFS
 fi
 log=()
-out="$(ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode" 2>&1)"
+out="$("${IR_CTL}" -d "${LIRC_DEVICE}" -k "$keymap" -K "$keycode" 2>&1)"
 exit_status=$?
 if [[ -n "${out}" ]]; then
   log+=("$out")
@@ -46,7 +50,7 @@ if [[ $exit_status -ne 0 ]]; then
 fi
 for delay in "${delays[@]}"; do
   sleep "$delay"
-  out="$(ir-ctl -d ${LIRC_DEVICE} -k "$keymap" -K "$keycode" 2>&1)"
+  out="$("${IR_CTL}" -d "${LIRC_DEVICE}" -k "$keymap" -K "$keycode" 2>&1)"
   exit_status=$?
   if [[ -n "${out}" ]]; then
     log+=("$out")

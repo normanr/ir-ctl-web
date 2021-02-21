@@ -11,9 +11,9 @@ if ('serviceWorker' in navigator) {
 }
 
 let touchstart = (event) => {
-  event.preventDefault();
   let button = event.target.closest('button');
   if (!button) return;
+  event.preventDefault();
   console.log(event.type, button.dataset.keycode)
   let data = {
     "keymap": button.closest('device').dataset.keymap,
