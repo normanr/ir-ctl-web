@@ -38,6 +38,11 @@ if [[ $QUERY_STRING =~ (^|&)delays=([^&]*) ]]; then
   delays=($delay_str)
   IFS=$OIFS
 fi
+redirect=
+if [[ $QUERY_STRING =~ (^|&)redirect=([^&]*) ]]; then
+  redirect=${BASH_REMATCH[2]}
+  status="302 Redirect"
+fi
 log=()
 out="$("${IR_CTL}" -d "${LIRC_DEVICE}" -k "$keymap" -K "$keycode" 2>&1)"
 exit_status=$?
@@ -61,6 +66,12 @@ for delay in "${delays[@]}"; do
   fi
 done
 echo "Status: ${status}"
+echo "Content-Type: text/plain"
+if [[ -n "$redirect" ]]; then
+  echo "Location: http://${SERVER_ADDR}${redirect}"
+  echo
+  exit 0
+fi
 echo
 for l in "${log[@]}"; do
   echo "$l"

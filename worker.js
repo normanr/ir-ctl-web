@@ -1,4 +1,4 @@
-let cacheName = 'v2';
+let cacheName = 'v6';
 
 self.addEventListener('install', (event) => {
   console.log('[Service Worker ' + cacheName + '] installing');

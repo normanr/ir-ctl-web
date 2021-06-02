@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
   console.warn('Service workers are not supported.');
 }
 
-let touchstart = (event) => {
+let touchstart = async (event) => {
   let button = event.target.closest('button');
   if (!button) return;
   event.preventDefault();
@@ -25,26 +25,42 @@ let touchstart = (event) => {
   let led = document.getElementById('led');
   led.style = "color:red";
   let query = Object.entries(data).map(([k, v]) => escape(k) + '=' + escape(v)).join('&');
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", "/cgi-bin/ir-ctl-send?" + query);
-  xhr.addEventListener("load", () => {
+  const request = new Request("/cgi-bin/ir-ctl-send?" + query, {
+    method: 'POST',
+    headers: {
+      'Accept': 'text/plain',
+    },
+  })
+  let response;
+  try {
+    response = await fetch(request);
+  } catch (err) {
     led.style = "";
-    msg = xhr.status + " " + xhr.statusText + ":\n" + xhr.response;
-    if (xhr.status >= 200 && xhr.status < 300) {
-      if (xhr.response) {
-        console.warn(msg);
-        alert(msg);
-      }
-    } else {
-      console.error(msg);
+    alert("Error trying to connect to server: " + err);
+    return;
+  }
+  if (response.status == 401 /* Unauthorized */) {
+    data.redirect = location.pathname;
+    let query = Object.entries(data).map(([k, v]) => escape(k) + '=' + escape(v)).join('&');
+    const f = document.createElement('form');
+    f.style.display = 'none';
+    f.method = 'POST';
+    f.action = "/cgi-bin/ir-ctl-send?" + query;
+    document.body.appendChild(f);
+    f.submit();
+    return;
+  }
+  led.style = "";
+  response_text = await response.text();
+  msg = response.status + " " + response.statusText + ":\n" + response_text;
+  if (response.status >= 200 && response.status < 300) {
+    if (response_text) {
+      console.warn("POST " + response.url + " " + msg);
       alert(msg);
     }
-  });
-  xhr.addEventListener("error", () => {
-    led.style = "";
-    alert("Error trying to connect to server");
-  });
-  xhr.send();
+  } else {
+    alert(msg);
+  }
 };
 let touchend = (event) => {
   let button = event.target.closest('button');
