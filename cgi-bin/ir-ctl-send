@@ -21,6 +21,8 @@ else
 fi
 if [[ $QUERY_STRING =~ (^|&)keycode=([^&]*) ]]; then
   keycode="${BASH_REMATCH[2]}"
+  # https://unix.stackexchange.com/questions/159253/decoding-url-encoding-percent-encoding
+  keycode=$(keycode=${keycode//+/ }; printf '%b' "${keycode//%/\\x}")
 else
   echo Status: 400 Bad Request
   echo
